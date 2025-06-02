@@ -19,6 +19,15 @@ class Styles {
         colorScheme:
             isDarkTheme ? const ColorScheme.dark() : const ColorScheme.light(),
       ),
+
+      // ✅ Add this
+      textTheme: TextTheme(
+        headlineMedium: TextStyle(
+          color: isDarkTheme ? Colors.white : Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        ),
+      ),
     );
   }
 }

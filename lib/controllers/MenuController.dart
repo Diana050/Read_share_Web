@@ -13,7 +13,7 @@ class Menucontroller extends ChangeNotifier {
       _addProductScaffoldKey;
 
   //callbacks
-  void controlDashboradMenu() {
+  void controlDashboardMenu() {
     if (!_scaffoldKey.currentState!.isDrawerOpen) {
       _scaffoldKey.currentState!.openDrawer();
     }

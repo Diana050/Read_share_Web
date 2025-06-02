@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Menucontroller()),
+        //ChangeNotifierProvider<Menucontroller>(create: (_) => Menucontroller()),
         ChangeNotifierProvider(
           create: (_) {
             return themeChangeProvider;
@@ -47,7 +48,11 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Grocery',
-            theme: Styles.themeData(themeProvider.getDarkTheme, context),
+            // theme: Styles.themeData(themeProvider.getDarkTheme, context),
+            theme: Styles.themeData(false, context),
+            darkTheme: Styles.themeData(true, context),
+            themeMode:
+                themeProvider.getDarkTheme ? ThemeMode.dark : ThemeMode.light,
             home: const MainScreen(),
           );
         },

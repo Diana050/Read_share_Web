@@ -44,9 +44,7 @@ class Header extends StatelessWidget {
               suffixIcon: InkWell(
                 onTap: () {},
                 child: Container(
-                  padding: EdgeInsets.all(
-                    defaultPadding * 0.75,
-                  ), //vezi ce faci cu defaultPadding*0.75
+                  padding: EdgeInsets.all(defaultPadding * 0.75),
                   margin: const EdgeInsets.symmetric(
                     horizontal: defaultPadding / 2,
                   ),

@@ -4,6 +4,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 // import 'package:grocery_admin_panel/inner_screens/all_products.dart';
 import 'package:provider/provider.dart';
 import 'package:read_share_disertatie_web/providers/dark_theme_provider.dart';
+import 'package:read_share_disertatie_web/screens/inner_screens/all_products_screen.dart';
 import 'package:read_share_disertatie_web/services/utils.dart';
 import 'package:read_share_disertatie_web/widgets/text_widget.dart';
 
@@ -39,10 +40,12 @@ class _SideMenuState extends State<SideMenu> {
           DrawerListTile(
             title: "View all products",
             press: () {
-              // Navigator.pushReplacement(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => const AllProductsScreen()));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AllProductsScreen(),
+                ),
+              );
             },
             icon: Icons.store,
           ),
@@ -90,8 +93,8 @@ class DrawerListTile extends StatelessWidget {
   final IconData icon;
   @override
   Widget build(BuildContext context) {
-    final theme = Utils(context).getTheme;
-    final color = theme == true ? Colors.white : Colors.black;
+    //final theme = Utils(context).getTheme;
+    final color = Colors.black;
 
     return ListTile(
       onTap: press,
