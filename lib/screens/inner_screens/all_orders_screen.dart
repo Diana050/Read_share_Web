@@ -6,21 +6,22 @@ import 'package:read_share_disertatie_web/services/utils.dart';
 import 'package:read_share_disertatie_web/widgets/grid_products.dart';
 //import 'package:read_share_disertatie_web/screens/dashboard_screen.dart';
 import 'package:read_share_disertatie_web/widgets/header.dart';
+import 'package:read_share_disertatie_web/widgets/order_list.dart';
 import 'package:read_share_disertatie_web/widgets/side_menu.dart';
 
-class AllProductsScreen extends StatefulWidget {
-  const AllProductsScreen({Key? key}) : super(key: key);
+class AllOrdersScreen extends StatefulWidget {
+  const AllOrdersScreen({Key? key}) : super(key: key);
 
   @override
-  State<AllProductsScreen> createState() => _AllProductsScreenState();
+  State<AllOrdersScreen> createState() => _AllOrdersScreenState();
 }
 
-class _AllProductsScreenState extends State<AllProductsScreen> {
+class _AllOrdersScreenState extends State<AllOrdersScreen> {
   @override
   Widget build(BuildContext context) {
-    Size size = Utils(context).screenSize;
+    //Size size = Utils(context).screenSize;
     return Scaffold(
-      key: context.read<Menucontroller>().getgridscaffoldKey,
+      key: context.read<Menucontroller>().getordersscaffoldKey,
       drawer: const SideMenu(),
       body: SafeArea(
         child: Row(
@@ -41,21 +42,14 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                   children: [
                     Header(
                       fct: () {
-                        context.read<Menucontroller>().controlProductsMenu();
+                        context.read<Menucontroller>().controlAllOrdersdMenu();
                       },
-                      title: 'All products',
+                      title: 'All Orders',
                     ),
-                    Responsive(
-                      mobile: ProductGridWidget(
-                        childAspectRatio:
-                            size.width < 650 && size.width > 350 ? 1.1 : 0.8,
-                        crossAxisCount: size.width < 700 ? 2 : 4,
-                        isInMai: false,
-                      ),
-                      desktop: ProductGridWidget(
-                        childAspectRatio: size.width < 1400 ? 0.8 : 1.05,
-                        isInMai: false,
-                      ),
+                    const SizedBox(height: 20),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: OrderList(),
                     ),
                   ],
                 ),

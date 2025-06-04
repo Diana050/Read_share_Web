@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:read_share_disertatie_web/consts/theme_data.dart';
 import 'package:read_share_disertatie_web/controllers/MenuController.dart';
 import 'package:read_share_disertatie_web/providers/dark_theme_provider.dart';
+import 'package:read_share_disertatie_web/screens/inner_screens/add_product.dart';
 import 'package:read_share_disertatie_web/screens/main_screen.dart';
 
 void main() {
@@ -54,6 +55,10 @@ class _MyAppState extends State<MyApp> {
             themeMode:
                 themeProvider.getDarkTheme ? ThemeMode.dark : ThemeMode.light,
             home: const MainScreen(),
+            routes: {
+              UploadProductForm.routeName:
+                  (context) => const UploadProductForm(),
+            },
           );
         },
       ),

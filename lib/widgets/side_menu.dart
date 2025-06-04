@@ -4,6 +4,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 // import 'package:grocery_admin_panel/inner_screens/all_products.dart';
 import 'package:provider/provider.dart';
 import 'package:read_share_disertatie_web/providers/dark_theme_provider.dart';
+import 'package:read_share_disertatie_web/screens/inner_screens/all_orders_screen.dart';
 import 'package:read_share_disertatie_web/screens/inner_screens/all_products_screen.dart';
 import 'package:read_share_disertatie_web/services/utils.dart';
 import 'package:read_share_disertatie_web/widgets/text_widget.dart';
@@ -52,10 +53,12 @@ class _SideMenuState extends State<SideMenu> {
           DrawerListTile(
             title: "View all orders",
             press: () {
-              // Navigator.pushReplacement(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => const AllOrdersScreen()));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AllOrdersScreen(),
+                ),
+              );
             },
             icon: IconlyBold.bag2,
           ),
