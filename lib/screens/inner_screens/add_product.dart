@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:read_share_disertatie_web/consts/constants.dart';
 import 'package:read_share_disertatie_web/controllers/MenuController.dart';
@@ -21,13 +26,14 @@ class UploadProductForm extends StatefulWidget {
 
 class _UploadProductFormState extends State<UploadProductForm> {
   final _formKey = GlobalKey<FormState>();
+  String _catValue = 'Romance';
   late final TextEditingController _titleController,
       _authorController,
       _priceController;
-  // int _groupValue = 1;
+  int _groupValue = 1;
   // bool isPiece = false;
-  // File? _pickedImage;
-  // Uint8List webImage = Uint8List(8);
+  File? _pickedImage;
+  Uint8List webImage = Uint8List(8);
   @override
   void initState() {
     _priceController = TextEditingController();
@@ -49,6 +55,18 @@ class _UploadProductFormState extends State<UploadProductForm> {
 
   void _uploadForm() async {
     final isvalid = _formKey.currentState!.validate();
+  }
+
+  void _clearForm() {
+    // isPiece = false;
+    _groupValue = 1;
+    _titleController.clear();
+    _authorController.clear();
+    _priceController.clear();
+    setState(() {
+      _pickedImage = null;
+      webImage = Uint8List(8);
+    });
   }
 
   @override
@@ -139,81 +157,119 @@ class _UploadProductFormState extends State<UploadProductForm> {
                             children: [
                               Expanded(
                                 flex: 2,
-                                child: FittedBox(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      TextWidget(
-                                        text: 'Number of days',
-                                        color: color,
-                                        textSize: 6,
-                                        isTitle: true,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    TextWidget(
+                                      text: 'Number of days',
+                                      color: color,
+                                      textSize: 18,
+                                      isTitle: true,
+                                    ),
+                                    const SizedBox(height: 15),
+                                    SizedBox(
+                                      width: 100,
+                                      height: 40,
+                                      child: TextFormField(
+                                        controller: _priceController,
+                                        key: const ValueKey('Days'),
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter the number of days';
+                                          }
+                                          return null;
+                                        },
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9.]'),
+                                          ),
+                                        ],
+                                        decoration: inputDecoration,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ), // smaller input text
                                       ),
-                                      const SizedBox(height: 15),
-                                      SizedBox(
-                                        width: 100,
-                                        height: 40,
-                                        child: TextFormField(
-                                          controller: _priceController,
-                                          key: const ValueKey('Days'),
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(),
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Please enter the number of days';
-                                            }
-                                            return null;
-                                          },
-                                          inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter.allow(
-                                              RegExp(r'[0-9.]'),
-                                            ),
-                                          ],
-                                          decoration: inputDecoration,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                          ), // smaller input text
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      TextWidget(
-                                        text: 'Product Category',
-                                        color: color,
-                                        textSize: 6,
-                                        isTitle: true,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      //drop down menu
-                                    ],
-                                  ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    TextWidget(
+                                      text: 'Product Category',
+                                      color: color,
+                                      textSize: 18,
+                                      isTitle: true,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    //drop down menu
+                                    _categoryDropDown(),
+                                  ],
                                 ),
                               ),
                               //image to be picked
                               Expanded(
-                                flex: 1,
-                                child: FittedBox(
-                                  child: Column(
-                                    children: [
-                                      TextButton(
-                                        onPressed: () {},
-                                        child: TextWidget(
-                                          text: 'Clear',
-                                          color: Colors.red,
-                                          textSize: 5,
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {},
-                                        child: TextWidget(
-                                          text: 'Update Image',
-                                          color: Colors.lightBlue,
-                                          textSize: 5,
-                                        ),
-                                      ),
-                                    ],
+                                flex: 4,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height:
+                                        size.width > 650
+                                            ? 350
+                                            : size.width *
+                                                0.45, //try other values
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).scaffoldBackgroundColor,
+                                      borderRadius: BorderRadius.circular(12.0),
+                                    ),
+                                    child:
+                                        _pickedImage == null
+                                            ? dottedBorder(color: color)
+                                            : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child:
+                                                  kIsWeb
+                                                      ? Image.memory(
+                                                        webImage,
+                                                        fit: BoxFit.fill,
+                                                      )
+                                                      : Image.file(
+                                                        _pickedImage!,
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                            ),
                                   ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Column(
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _pickedImage = null;
+                                          webImage = Uint8List(8);
+                                        });
+                                      },
+                                      child: TextWidget(
+                                        text: 'Clear',
+                                        color: Colors.red,
+                                        textSize: 16,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: TextWidget(
+                                        text: 'Update Image',
+                                        color: Colors.lightBlue,
+                                        textSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -224,7 +280,7 @@ class _UploadProductFormState extends State<UploadProductForm> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ButtonsWidget(
-                                  onPressed: () {},
+                                  onPressed: _clearForm,
                                   text: 'Clear Form',
                                   icon: IconlyBold.danger,
                                   backgroundColor: Colors.red.shade300,
@@ -247,6 +303,101 @@ class _UploadProductFormState extends State<UploadProductForm> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget dottedBorder({required Color color}) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DottedBorder(
+        dashPattern: const [6.7],
+        borderType: BorderType.RRect,
+        color: color,
+        radius: Radius.circular(12),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.image_outlined, color: color, size: 50),
+              TextButton(
+                onPressed: () {
+                  _pickImage();
+                },
+                child: TextWidget(
+                  text: 'Choose an image',
+                  color: color,
+                  textSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickImage() async {
+    if (!kIsWeb) {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var selected = File(image.path);
+        setState(() {
+          _pickedImage = selected;
+        });
+      } else {
+        print('No image has been picked');
+      }
+    } else if (kIsWeb) {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var f = await image.readAsBytes();
+        setState(() {
+          webImage = f;
+          _pickedImage = File('a');
+        });
+      } else {
+        print('No image has been picked');
+      }
+    } else {
+      print('Something went wrong');
+    }
+  }
+
+  Widget _categoryDropDown() {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      //padding: const EdgeInsets.all(5.0),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: _catValue,
+          onChanged: (value) {
+            setState(() {
+              _catValue = value!;
+            });
+            print(_catValue);
+          },
+          hint: Text('Select a genra'),
+          items: const [
+            DropdownMenuItem(value: 'Fantasy', child: Text('Fantasy')),
+            DropdownMenuItem(value: 'Romance', child: Text('Romance')),
+            DropdownMenuItem(
+              value: 'Historical Fiction',
+              child: Text('Historical Fiction'),
+            ),
+            DropdownMenuItem(
+              value: 'Science Fiction',
+              child: Text('Science Fiction'),
+            ),
+            DropdownMenuItem(value: 'Non Fiction', child: Text('Non Fiction')),
+            DropdownMenuItem(value: 'Horror', child: Text('Horror')),
+            DropdownMenuItem(value: 'Kids', child: Text('Kids')),
+            DropdownMenuItem(value: 'Comics', child: Text('Comics')),
+          ],
+        ),
       ),
     );
   }
