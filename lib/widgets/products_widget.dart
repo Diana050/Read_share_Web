@@ -1,6 +1,7 @@
 //import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:read_share_disertatie_web/services/global_method.dart';
 import 'package:read_share_disertatie_web/services/utils.dart';
@@ -113,7 +114,19 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                                 value: 1,
                               ),
                               PopupMenuItem(
-                                onTap: () {},
+                                onTap: () {
+                                  GlobalMethods.warningDialog(
+                                    title: 'Do you want to delete this title?',
+                                    subtitle: 'Press ok to confirm',
+                                    fct: () async {
+                                      await FirebaseFirestore.instance
+                                          .collection('products')
+                                          .doc(widget.id)
+                                          .delete();
+                                    },
+                                    context: context,
+                                  );
+                                },
                                 child: Text(
                                   'Delete',
                                   style: TextStyle(color: Colors.red),
@@ -137,11 +150,19 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                     ],
                   ),
                   const SizedBox(height: 2),
-                  TextWidget(
-                    text: title,
-                    color: color,
-                    textSize: 24,
-                    isTitle: true,
+                  Row(
+                    children: [
+                      TextWidget(
+                        text: title,
+                        color: color,
+                        textSize: 24,
+                        isTitle: true,
+                      ),
+                      SizedBox(width: 30),
+                      isHot == true
+                          ? Icon(CupertinoIcons.flame, color: Colors.redAccent)
+                          : Text(''),
+                    ],
                   ),
                   const SizedBox(height: 2),
                   TextWidget(

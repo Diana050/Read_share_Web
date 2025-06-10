@@ -44,8 +44,11 @@ class GlobalMethods {
               ),
             ),
             TextButton(
-              onPressed: () {
-                fct();
+              onPressed: () async {
+                await fct();
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context); // ✅ Close dialog after action
+                }
               },
               child: TextWidget(text: 'OK', color: Colors.red, textSize: 18),
             ),

@@ -38,6 +38,7 @@ class _UploadProductFormState extends State<UploadProductForm> {
       _descriptionController,
       _priceController;
   int _groupValue = 1;
+  bool _isHot = false;
   // bool isPiece = false;
   File? _pickedImage;
   Uint8List webImage = Uint8List(8);
@@ -100,7 +101,7 @@ class _UploadProductFormState extends State<UploadProductForm> {
           'price': _priceController.text,
           'imageUrl': imageUrl,
           'productCategoryName': _catValue,
-          'isHot': false,
+          'isHot': _isHot,
           'createdAt': Timestamp.now(),
         });
         _clearForm();
@@ -293,6 +294,22 @@ class _UploadProductFormState extends State<UploadProductForm> {
                                           ), // smaller input text
                                         ),
                                       ),
+                                      SizedBox(height: 15),
+                                      TextWidget(
+                                        text: 'Hot on Social media section?',
+                                        color: color,
+                                        textSize: 15,
+                                        isTitle: true,
+                                      ),
+                                      Checkbox(
+                                        value: _isHot,
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            _isHot = newValue!;
+                                          });
+                                        },
+                                      ),
+
                                       const SizedBox(height: 20),
                                       TextWidget(
                                         text: 'Product Category',
