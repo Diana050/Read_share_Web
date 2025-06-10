@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "352069183248",
+    "project_id": "read-share-disertatie",
+    "storage_bucket": "read-share-disertatie.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352069183248:android:d02a2b48c452865e00a795",
+        "android_client_info": {
+          "package_name": "com.example.read_share_disertatie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXqAd5QdPPfDybGHM0CcwnusbBLZA4PIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352069183248:android:2bee00c4a8e82b1500a795",
+        "android_client_info": {
+          "package_name": "com.example.read_share_disertatie_web"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXqAd5QdPPfDybGHM0CcwnusbBLZA4PIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
