@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:read_share_disertatie_web/Models_and_Providers/product_provider.dart';
 import 'package:read_share_disertatie_web/consts/theme_data.dart';
 import 'package:read_share_disertatie_web/controllers/MenuController.dart';
 import 'package:read_share_disertatie_web/providers/dark_theme_provider.dart';
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
             return themeChangeProvider;
           },
         ),
+        // ChangeNotifierProvider(create: (_) => ProductsProvider()),
       ],
       child: Consumer<DarkThemeProvider>(
         builder: (context, themeProvider, child) {
